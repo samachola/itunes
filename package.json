@@ -1,0 +1,31 @@
+{
+  "name": "itunes_api",
+  "version": "1.0.0",
+  "description": "Itunes music store",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node server.js"
+  },
+  "author": "achola",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http": "0.0.0",
+    "morgan": "^1.9.1",
+    "pg": "^7.17.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.3",
+    "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "nodemon": "^2.0.2"
+  }
+}
