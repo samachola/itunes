@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-
+const ArtistController = require('./artistController');
 const { 
 	createArtist, 
 	updateArtist, 
 	getArtists, 
 	getArtist, 
 	deleteArtist 
-} = require('./artistController')
+} = new ArtistController();
 
 
 router.get('/', getArtists);
