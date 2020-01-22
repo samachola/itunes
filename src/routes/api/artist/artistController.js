@@ -1,5 +1,6 @@
 const uuidv4 = require('uuid/v4');
 const ArtistModel = require('../../../models/ArtistModel');
+const SongsModel = require('../../../models/SongsModel');
 
 class ArtistController {
 	createArtist = async(req, res) => {
@@ -71,6 +72,27 @@ class ArtistController {
 			} else {
 				res.status(404).json({ status: 404, error: 'cannot find artist'})
 			} 
+		} catch (error) {
+			return next(error);
+		}
+	}
+
+	getArtistSongs = async (req, res, next) => {
+		const {id} = req.params;
+
+		try {
+			const songs = SongsModel.findAll({
+				where: {
+					artistId: id,
+				}
+			});
+
+			if (songs) {
+				return res.status(200).json({ status: 200, songs });
+			} else {
+				return res.status(404).json({ status: 404, error: 'No songs available'})
+			}
+
 		} catch (error) {
 			return next(error);
 		}

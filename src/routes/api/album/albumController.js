@@ -1,5 +1,6 @@
 const uuidv4 = require('uuid/v4');
 const AlbumModel = require('../../../models/AlbumModel');
+const SongsModel = require('../../../models/SongsModel');
 
 class AlbumController {
 	getAlbums = async (req, res, next) => {
@@ -16,10 +17,10 @@ class AlbumController {
 	}
 
 	createAlbum = async (req, res, next) => {
-		const {name, review, price} = req.body;
+		const {name, review, price, artistId } = req.body;
 
 		try {
-			const newAlbum = await AlbumModel.create({ id: uuidv4(), name, review, price });
+			const newAlbum = await AlbumModel.create({ id: uuidv4(), name, review, price, artistId });
 			if (newAlbum) {
 				res.status(201).json({ 
 					status: 201, 
@@ -78,6 +79,26 @@ class AlbumController {
 			}
 		} catch (error) {
 			return next(error);
+		}
+	}
+
+	getAlbumSongs = async (req, res, next) => {
+		const { id } = req.params;
+
+		try {
+			const songs = SongsModel.findAll({
+				where: {
+					albumId: id,
+				}
+			});
+
+			if (songs) {
+				return res.status(200).json({ status: 200, songs });
+			} else {
+				return res.status(404).json({ status: 404, error: 'No songs available'})
+			}
+		} catch (error) {
+			return next(error)
 		}
 	}
 

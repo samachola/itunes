@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const ArtistModel = require('./ArtistModel');
 const db = require('../config/database');
 
 const AlbumModel = db.define('albums', {
@@ -15,7 +16,21 @@ const AlbumModel = db.define('albums', {
 	},
 	price: {
 		type: Sequelize.INTEGER
+	},
+	artistId: {
+		type: Sequelize.STRING,
+		references: {
+			model: ArtistModel,
+			foreignKey: 'artistId',
+		}
 	}
 });
+
+Sequelize.associate = () => {
+	AlbumModel.belongsTo(ArtistModel, {
+		foreignKey: 'artistId',
+	})
+}
+
 
 module.exports = AlbumModel;

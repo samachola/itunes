@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const GenresModel = db.define('artist', {
+const ArtistModel = db.define('artist', {
 	id: {
 		type: Sequelize.UUID,
 		primaryKey: true,
@@ -16,4 +16,4 @@ const GenresModel = db.define('artist', {
 	}
 });
 
-module.exports = GenresModel;
+module.exports = ArtistModel;

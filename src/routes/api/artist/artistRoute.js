@@ -6,7 +6,8 @@ const {
 	updateArtist, 
 	getArtists, 
 	getArtist, 
-	deleteArtist 
+	deleteArtist,
+	getArtistSongs,
 } = new ArtistController();
 
 
@@ -14,6 +15,7 @@ router.get('/', getArtists);
 router.post('/', createArtist);
 router.put('/:id', updateArtist);
 router.get('/:id', getArtist);
+router.get('/:id/songs', getArtistSongs);
 router.delete('/:id', deleteArtist);
 
 
