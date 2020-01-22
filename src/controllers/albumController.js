@@ -1,6 +1,6 @@
 const uuidv4 = require('uuid/v4');
-const AlbumModel = require('../../../models/AlbumModel');
-const SongsModel = require('../../../models/SongsModel');
+const AlbumModel = require('../models/AlbumModel');
+const SongsModel = require('../models/SongsModel');
 
 class AlbumController {
 	getAlbums = async (req, res, next) => {

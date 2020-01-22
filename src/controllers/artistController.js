@@ -1,6 +1,6 @@
 const uuidv4 = require('uuid/v4');
-const ArtistModel = require('../../../models/ArtistModel');
-const SongsModel = require('../../../models/SongsModel');
+const ArtistModel = require('../models/ArtistModel');
+const SongsModel = require('../models/SongsModel');
 
 class ArtistController {
 	createArtist = async(req, res) => {

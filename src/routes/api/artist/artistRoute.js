@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ArtistController = require('./artistController');
+const ArtistController = require('../../../controllers/artistController');
 const { 
 	createArtist, 
 	updateArtist, 

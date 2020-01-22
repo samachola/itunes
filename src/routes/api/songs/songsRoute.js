@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const SongsController = require('./songsController');
+const SongsController = require('../../../controllers/songsController');
 
 const { createSong, getSongs, updateSong, deleteSong, } = new SongsController();
 

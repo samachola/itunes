@@ -1,6 +1,6 @@
 'use strict'
 const uuidv4 = require('uuid/v4');
-const SongsModel = require('../../../models/SongsModel');
+const SongsModel = require('../models/SongsModel');
 
 class SongsController {
 	createSong = async (req, res, next) => {
