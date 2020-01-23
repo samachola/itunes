@@ -2,34 +2,31 @@ const uuidv4 = require("uuid/v4");
 const GenresModel = require("../../../models/GenresModel");
 
 class GenreController {
-  getGenres = async (req, res) => {
-    const results = await GenresModel.findAll();
-    if (results) {
-      res.status(200).json({ status: 200, genres: results });
-    } else {
-      res.status(403);
+  getGenres = async (req, res, next) => {
+
+    try {
+      const results = await GenresModel.findAll();
+
+      return res.status(200).json({ status: 200, message: 'Successfully fetched genres', data: results });
+    } catch (error) {
+      return next(error);
     }
   };
 
-  createGenre = (req, res) => {
+  createGenre = async (req, res) => {
     const { title } = req.body;
 
-    GenresModel.create({
-      id: uuidv4(),
-      title,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    })
-      .then(() => {
-        res.status(201).json({
-          msg: `${title} added successfully`
-        });
+    try {
+      const results = await GenresModel.create({
+        id: uuidv4(),
+        title,
       })
-      .catch(err => {
-        res.status(403).json({
-          msg: `Error: ${err}`
-        });
-      });
+
+      return res.status(201).json({ status: 201, message: `Successfully added genre: ${title}`});
+    } catch (error) {
+      return next(error);
+    }
+
   };
 
   updateGenre = async (req, res, next) => {
@@ -54,9 +51,11 @@ class GenreController {
       }
 
       res.status(201).json({
-        msg: "successfully updated Genre",
-        genre: results[1][0]
+        status: 201,
+        messsage: "successfully updated Genre",
+        data: results[1][0]
       });
+
     } catch (error) {
       return next(error);
     }
@@ -67,20 +66,23 @@ class GenreController {
 
     try {
       const genre = await GenresModel.findByPk(id);
-      if (!genre)
+      if (!genre) {
         return res
           .status(404)
           .json({
             status: 404,
-            error: "genre you are looking for cannot be found"
+            error: "Genre you are looking for cannot be found"
           });
+      }
+
       await GenresModel.destroy({
         where: { id }
       });
 
       return res
         .status(200)
-        .json({ status: 200, message: "article deleted successfully" });
+        .json({ status: 200, message: "Successfully deleted genre" });
+
     } catch (error) {
       return next(error);
     }

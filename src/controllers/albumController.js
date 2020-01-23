@@ -6,11 +6,8 @@ class AlbumController {
   getAlbums = async (req, res, next) => {
     try {
       const albums = await AlbumModel.findAll();
-      if (albums) {
-        res.status(200).json({ status: 200, albums });
-      } else {
-        res.status(404).json({ status: 404, error: "Albums not found" });
-      }
+      res.status(200).json({ status: 200, data: albums });
+      
     } catch (error) {
       return next(error);
     }
@@ -27,14 +24,15 @@ class AlbumController {
         price,
         artistId
       });
+
       if (newAlbum) {
         res.status(201).json({
           status: 201,
           message: "successfully added new album",
-          album: newAlbum
+          data: newAlbum
         });
       } else {
-        res.status(404).json({ status: 404, error: "Could not create album" });
+        res.status(500).json({ status: 500, error: "Could not create album" });
       }
     } catch (error) {
       return next(error);
@@ -44,6 +42,7 @@ class AlbumController {
   updateAlbum = async (req, res, next) => {
     const { id } = req.params;
     const updates = Object.assign({}, req.body);
+  
     try {
       const results = await AlbumModel.update(updates, {
         where: {
@@ -63,8 +62,8 @@ class AlbumController {
 
       res.status(201).json({
         status: 201,
-        message: "successfully updated album",
-        album: results[1][0]
+        message: "Successfully updated album",
+        data: results[1][0]
       });
     } catch (error) {
       return next(error);
@@ -73,14 +72,16 @@ class AlbumController {
 
   getAlbum = async (req, res, next) => {
     const { id } = req.params;
+
     try {
       const album = await AlbumModel.findByPk(id);
 
-      if (album) {
-        res.status(200).json({ status: 200, album });
-      } else {
-        res.status(404).json({ status: 404, error: "Album not found" });
-      }
+      res.status(200).json({ 
+        status: 200, 
+        message: 'Successfully fetched album', 
+        data: album,
+      });
+
     } catch (error) {
       return next(error);
     }
@@ -96,13 +97,12 @@ class AlbumController {
         }
       });
 
-      if (songs) {
-        return res.status(200).json({ status: 200, songs });
-      } else {
-        return res
-          .status(404)
-          .json({ status: 404, error: "No songs available" });
-      }
+      return res.status(200).json({ 
+        status: 200, 
+        message: 'Success found album songs', 
+        data: songs,
+      });
+      
     } catch (error) {
       return next(error);
     }
@@ -112,10 +112,10 @@ class AlbumController {
     const { id } = req.params;
 
     try {
-      const album = await AlbumModel.findByPk();
+      const album = await AlbumModel.findByPk(id);
 
       if (!album)
-        res.status(404).json({ status: 404, error: "Album not existing" });
+        res.status(404).json({ status: 404, error: `Sorry, the album you wish to delete does not exist` });
 
       await AlbumModel.destroy({
         where: { id }
@@ -123,7 +123,7 @@ class AlbumController {
 
       res
         .status(201)
-        .json({ status: 201, message: "successfully deleted album" });
+        .json({ status: 201, message: "Successfully deleted album" });
     } catch (error) {
       return next(error);
     }

@@ -18,7 +18,7 @@ class SongsController {
         res.status(201).json({
           status: 201,
           message: "Successfully added new song",
-          song: newSong
+          data: newSong
         });
       }
     } catch (error) {
@@ -50,7 +50,7 @@ class SongsController {
       res.status(201).json({
         status: 201,
         message: "successfully updated song",
-        song: results[1][0]
+        data: results[1][0]
       });
     } catch (error) {
       return next(error);
@@ -60,11 +60,9 @@ class SongsController {
   getSongs = async (req, res, next) => {
     try {
       const songs = await SongsModel.findAll();
-      if (songs) {
-        res.status(200).json({ status: 200, songs });
-      } else {
-        res.status(404).json({ status: 404, error: "No songs availble" });
-      }
+    
+      res.status(200).json({ status: 200, message: 'Successfully fetched songs', data: songs });
+
     } catch (error) {
       return next(error);
     }
@@ -76,17 +74,19 @@ class SongsController {
     try {
       const song = await SongsModel.findByPk(id);
 
-      if (!song)
+      if (!song) {
         return res
           .status(404)
-          .json({ status: 404, error: "Sorry, song not found" });
+          .json({ status: 404, error: "Sorry, the song you wish to delete does not exist" });
+      }
+
       await SongsModel.destroy({
-        where: { id }
+        where: { id },
       });
 
       return res
         .status(201)
-        .json({ status: 201, message: "Song successfully deleted" });
+        .json({ status: 201, message: `Song with id ${id} successfully deleted` });
     } catch (error) {
       return next(error);
     }

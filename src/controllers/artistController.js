@@ -8,15 +8,13 @@ class ArtistController {
 
     try {
       const results = await ArtistModel.create({ id: uuidv4(), name, bio });
-      if (results) {
-        res.status(201).json({ status: 201, success: results });
-      } else {
-        res.status(404).json({ status: 404, error: "Could not create artist" });
-      }
+      
+      return res.status(201).json({ status: 201, message: 'Successfully added new artist', data: results });
+      
     } catch (error) {
-      res
-        .status(403)
-        .json({ status: 403, error: `Error creating artist: ${error}` });
+      return res
+        .status(500)
+        .json({ status: 500, error: `Error creating artist: ${error}` });
     }
   };
 
@@ -43,8 +41,8 @@ class ArtistController {
 
       res.status(201).json({
         status: 201,
-        message: "successfully updated artist",
-        artist: results[1][0]
+        message: "Successfully updated artist",
+        data: results[1][0]
       });
     } catch (error) {
       return next(error);
@@ -55,13 +53,8 @@ class ArtistController {
     try {
       const artists = await ArtistModel.findAll();
 
-      if (artists) {
-        res.status(200).json({ status: 200, artists });
-      } else {
-        res
-          .status(403)
-          .json({ status: 404, message: "Could not find artists" });
-      }
+      res.status(200).json({ status: 200, message: 'Successfully fetched artists', data: artists });
+      
     } catch (error) {
       return next(error);
     }
@@ -69,13 +62,11 @@ class ArtistController {
 
   getArtist = async (req, res, next) => {
     const { id } = req.params;
+
     try {
       const artist = await ArtistModel.findByPk(id);
-      if (artist) {
-        res.status(200).json({ status: 200, artist });
-      } else {
-        res.status(404).json({ status: 404, error: "cannot find artist" });
-      }
+      res.status(200).json({ status: 200, message: 'Successfully found artist', data: artist });
+      
     } catch (error) {
       return next(error);
     }
@@ -91,13 +82,8 @@ class ArtistController {
         }
       });
 
-      if (songs) {
-        return res.status(200).json({ status: 200, songs });
-      } else {
-        return res
-          .status(404)
-          .json({ status: 404, error: "No songs available" });
-      }
+      return res.status(200).json({ status: 200, message: 'Successfully fetched songs', data: songs });
+
     } catch (error) {
       return next(error);
     }
@@ -109,8 +95,9 @@ class ArtistController {
     try {
       const artist = await ArtistModel.findByPk(id);
 
-      if (!artist)
-        res.status(404).json({ status: 404, error: "artist does not exist" });
+      if (!artist) {
+        res.status(404).json({ status: 404, error: "The artist you wish to delete does not exist" });
+      }
 
       await ArtistModel.destroy({
         where: { id }
@@ -118,7 +105,7 @@ class ArtistController {
 
       res
         .status(201)
-        .json({ status: 201, message: "successfully deleted artist" });
+        .json({ status: 201, message: "Successfully deleted artist" });
     } catch (error) {
       return next(error);
     }
