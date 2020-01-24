@@ -10,7 +10,7 @@ const app = express();
 
 // test db connection
 db.authenticate()
-  .then(() => console.log("database connected......"))
+  .then(_ => console.log("database connected......"))
   .catch(err => console.log(`Error: ${err}`));
 
 app.use(cors());

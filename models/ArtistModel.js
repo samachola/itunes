@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
 
-const ArtistModel = db.define("artist", {
+const ArtistModel = db.define("artists", {
   id: {
     type: Sequelize.UUID,
     primaryKey: true,
