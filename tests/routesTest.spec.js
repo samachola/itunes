@@ -10,9 +10,9 @@ describe('Routes', () => {
 		server.close();
 	});
 
-	describe('Genres', () => {
-		it('should get genres', async () => {
-			const data = await request.get(`${baseUrl}/genres`);
+	describe('Artists', () => {
+		it('should get artists', async () => {
+			const data = await request.get(`${baseUrl}/artists`);
 			expect(data.status).toEqual(200);
 		});
 	})
