@@ -16,4 +16,18 @@ describe('Routes', () => {
 			expect(data.status).toEqual(200);
 		});
 	})
+
+	describe('Albums', () => {
+		it('should get albums', async () => {
+			const data = await request.get(`${baseUrl}/albums`);
+			expect(data.status).toEqual(200);
+		});
+	})
+
+	describe('Songs', () => {
+		it('should get songs', async () => {
+			const data = await request.get(`${baseUrl}/songs`);
+			expect(data.status).toEqual(200);
+		});
+	})
 });
